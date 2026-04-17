@@ -19,11 +19,125 @@
       max-width: 100%;
       height: auto;
     }
-  </style>
+    
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      z-index: 100;
+    }
+
+    .whatsapp img {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .confetti {
+    position: fixed;
+    top: -20px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+    border-radius: 50%;
+    animation: caerSuave ease-in forwards;
+  }
+
+  @keyframes caerSuave {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(50vh) translateX(20px) rotate(180deg);
+    }
+    100% {
+      transform: translateY(110vh) translateX(-20px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+    </style>
 </head>
 <body>
 
   <img src="invitacion.png" alt="Invitación">
+  
+    <a href="https://wa.me/+51994803768?text=Hola%20quiero%20información%20sobre%20el%20aniversario%20de%20la%20iglesia" class="whatsapp" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+  </a>
+  
+<script>
+  function crearExplosion(x, y) {
+    const cantidad = 40;
 
-</body>
+    for (let i = 0; i < cantidad; i++) {
+      let confeti = document.createElement("div");
+      confeti.classList.add("confetti");
+
+      confeti.style.left = x + "px";
+      confeti.style.top = y + "px";
+
+      let angulo = Math.random() * 2 * Math.PI;
+      let distancia = Math.random() * 200 + 80;
+
+      let dx = Math.cos(angulo) * distancia;
+      let dy = Math.sin(angulo) * distancia;
+
+      let colores = ["#ff4d4d", "#ffd11a", "#33cc33", "#3399ff", "#ff66cc", "#ffffff"];
+      confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+
+      let size = Math.random() * 6 + 5;
+      confeti.style.width = size + "px";
+      confeti.style.height = size + "px";
+
+      confeti.animate([
+        {
+          transform: "translate(0,0) scale(0.5)",
+          opacity: 1
+        },
+        {
+          transform: `translate(${dx}px, ${dy}px) rotate(${Math.random()*720}deg)`,
+          opacity: 1
+        }
+      ], {
+        duration: Math.random() * 1200 + 1200,
+        easing: "cubic-bezier(0.2, 0.8, 0.2, 1)"
+      });
+
+      document.body.appendChild(confeti);
+
+      setTimeout(() => confeti.remove(), 2500);
+    }
+  }
+
+  function inicioFiesta() {
+    let tiempo = 0;
+
+    let intervalo = setInterval(() => {
+      // posiciones aleatorias en pantalla
+      let x = Math.random() * window.innerWidth;
+      let y = Math.random() * window.innerHeight * 0.6;
+
+      crearExplosion(x, y);
+
+      tiempo += 1;
+
+      // dura unos segundos
+      if (tiempo > 8) {
+        clearInterval(intervalo);
+      }
+    }, 400);
+  }
+
+  window.onload = () => {
+    setTimeout(() => {
+      inicioFiesta();
+    }, 500);
+  };
+</script></body>
 </html>
